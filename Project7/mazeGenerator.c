@@ -7,8 +7,8 @@ struct polje {
 	int trenK;
 };
 struct posecenaPolja { //cuva recom posecena polja
-	int vrsta[3000];
-	int kolona[3000];
+	int vrsta[100];
+	int kolona[100];
 };
 // todo: strukture pretvoriti u neku vrstu stack pair-a
  // todo: pretvori promenljive za strane ka orijentaciji na enum
@@ -69,7 +69,8 @@ generisi(int vrsta, int kolona, int nUlaza, int nIzlaza) {
 				Posecena.vrsta[brojPosecenih] = Polje.trenV;
 				Posecena.kolona[brojPosecenih] = Polje.trenK;
 
-				printf("%4d: %3d   | %3d\n",brojPosecenih, Polje.trenV, Polje.trenK);
+				//debug printer
+				//printf("%4d: %3d   | %3d\n",brojPosecenih, Polje.trenV, Polje.trenK);
 
 				brojPosecenih++;
 			}
