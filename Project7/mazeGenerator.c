@@ -126,11 +126,16 @@ int slobodni(int lokacija[2], int vrsta, int kolona, int brojPosecenih, int j) {
 
 int izaberi(int *skociNa) {
 	int element = 0;
-	for (int i = 0; i < 50; i++) {
+	do {
+		element = rand() % 4;
+	} while (skociNa[element] == 0);
+	return skociNa[element];
+
+	/*for (int i = 0; i < 150; i++) {
 		element = rand() % 4;
 		if (skociNa[element] > 0 && skociNa[element] < 5) return skociNa[element];
 	}
-	return 0;
+	return 0;*/
 	
 }
 

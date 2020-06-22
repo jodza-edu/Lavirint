@@ -16,5 +16,7 @@ void main() {
 	for (int i = 0; i < a*b; i++) {
 		printf("%3d: %3d   | %3d\n", i + 1, ptrPosecenaVrsta[i], ptrPosecenaKolona[i]);
 	}
+	
+	//generisiGrafiku(ptrPosecenaVrsta, ptrPosecenaKolona, a, b);
 
 }
