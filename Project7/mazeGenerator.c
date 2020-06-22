@@ -128,7 +128,7 @@ int izaberi(int *skociNa) {
 	int element = 0;
 	do {
 		element = rand() % 4;
-	} while (skociNa[element] == 0);
+	} while (skociNa[element] < 1);
 	return skociNa[element];
 
 	/*for (int i = 0; i < 150; i++) {
