@@ -1,50 +1,191 @@
 #include "stdio.h"
 #include "mazeGenerator.h"
 
-void generisiGrafiku(int *vrsta, int *kolona, int nVrsta, int nKolona) {
+void generisiGrafiku(int nVrsta, int nKolona) {
 
-	//za implementaciju zidova koristimo _ i |
+	//za implementaciju zidova koristimo 0 i +
 
 	//pravimo novu matricu, ciji elementi sadrze (redni) broj
 	//kada je to polje poseceno
-	int matr[100][100];
 
 	for (int i = 0; i < nVrsta; i++) {
+		
+		//printf("0");
+
+		// TO BE IMPROVED
+		// todo: treba doraditi print
+		// treba printati matrice
 		for (int j = 0; j < nKolona; j++) {
+			//susedna gore
 
-			for (int k = 0; k < nVrsta * nKolona;k++) {
-				if (i == vrsta[k] && j == kolona[k]) matr[i][j] = k;
-			}
+			for (int k = 0; k < 2; k++) {
 
-		}
-	}
+				if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i - 1][j] && i > 0) {
+					//susedna dole
+					if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i + 1][j]) {
+						//printf("0 0");
+						switch (k) {
+						case 0:
+							printf(" 0");
+							break;
+						case 1:
+							printf(" 0");
+							break;
+						default:
+							break;
+						}
+						
+						
+					}
+					//susedna zapad
+					else if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i][j - 1] && j > 0) {
+						//printf("0 0");											
+						switch (k) {
+						case 0:
+							printf(" 0");
+							break;
+						case 1:
+							printf("00");
+							break;
+						default:
+							break;
+						}
+						
+						
+					}
+					//susedna istok
+					else if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i][j + 1]) {
+						//printf("0 0");
+						switch (k) {
+						case 0:
+							printf("  ");
+							break;
+						case 1:
+							printf("00");
+							break;
+						default:
+							break;
+						}						
+					}
+					//jedina
+					else {
+						//printf("0 0");
+						switch (k) {
+						case 0:
+							printf(" 0");
+							break;
+						case 1:
+							printf("00");
+							break;
+						default:
+							break;
+						}
+						
+						
+					}
 
-	//generisemo zidove
-	for (int i = 0; i < nVrsta; i++) {
-		for (int j = 1; j < nKolona; j++) {
-			
-			//if ((susedno(vrsta, kolona, i, j, 0) && susedno(vrsta, kolona, i, j, 1)) || (i == 0 && susedno(vrsta, kolona, i, j, 1)) {
-			//	printf("|");	
-
-			//}
-		}
+				}
+				//susedna dole
+				else if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i + 1][j]) {
+					//susedna zapad
+					if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i][j - 1] && j > 0) {
+						//printf("000");
+						switch (k) {
+						case 0:
+							printf(" 0");
+							break;
+						case 1:
+							printf(" 0");
+							break;
+						default:
+							break;
+						}						
+					}
+					//susedna istok
+					else if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i][j + 1]) {
+						//printf("000");
+						switch (k) {
+						case 0:
+							printf("  ");
+							break;
+						case 1:
+							printf(" 0");
+							break;
+						default:
+							break;
+						}
+						
+						
+					}
+					//jedina
+					else {
+						//printf("000");
+						switch (k) {
+						case 0:
+							printf(" 0");
+							break;
+						case 1:
+							printf(" 0");
+							break;
+						default:
+							break;
+						}
+						
+						
+					}
+				}
+				//susedna zapad
+				else if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i][j - 1] && j > 0) {
+					//susedna istok
+					if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i][j + 1]) {
+						//printf("000");
+						switch (k) {
+						case 0:
+							printf("  ");
+							break;
+						case 1:
+							printf("00");
+							break;
+						default:
+							break;
+						}
+						
+						
+					}
+					//jedina
+					else {
+						//printf("000");
+						switch (k) {
+						case 0:
+							printf(" 0");
+							break;
+						case 1:
+							printf("00");
+							break;
+						default:
+							break;
+						}
+						
+						
+					}
+				}
+				//susedna istok samo
+				else if (matrPosecenihKoordinata[i][j] == matrPosecenihKoordinata[i][j + 1]) {
+					//printf("000");
+					switch (k) {
+					case 0:
+						printf("  ");
+						break;
+					case 1:
+						printf("00");
+						break;
+					default:
+						break;
+					}
+					
+					
+				} 
+			} 
+		}printf("\n");
 	}
-}
-
-int susedno(int* vrsta, int* kolona, int i, int j, int k) {
-
-	int susedni[4] = { 0,0,0,0 }; //N, S, W, E
-	if (vrsta[j] = vrsta[j - 1] - 1) {
-		susedni[0] = 1;
-	}
-	else if (vrsta[j] = vrsta[j + 1] - 1){
-		susedni[1] = 1;
-	}
-	else if (kolona[j] = kolona[j - 1] - 1) {
-		susedni[2] = 1;
-	}
-	else if (vrsta[j] = kolona[j + 1] - 1) {
-		susedni[3] = 1;
-	}
-	return susedni[k];
 }

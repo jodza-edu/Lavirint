@@ -4,7 +4,7 @@
 #define GRAPHICSGENERATOR_H_INCLUDED
 
 //bibliotecke funkcije graphicsGenerator-a
-void generisiGrafiku(int *vrsta, int *kolona, int nVrsta, int nKolona);
+void generisiGrafiku(int nVrsta, int nKolona);
 
 
 #endif
