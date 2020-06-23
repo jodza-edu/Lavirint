@@ -115,7 +115,8 @@ generisi(int vrsta, int kolona, int nUlaza, int nIzlaza) {
 			setPosecena(Polje.trenV, Polje.trenK, brojPosecenih);
 			brojPosecenih++;
 
-			printf("%3d: %3d   | %3d\n", brojPosecenih, Polje.trenV, Polje.trenK);
+			//debug print
+			//printf("%3d: %3d   | %3d\n", brojPosecenih, Polje.trenV, Polje.trenK);
 
 		}
 	}
