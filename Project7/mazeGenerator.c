@@ -22,8 +22,15 @@ int* ptrPosecenaKolona = &Posecena.kolona;
 generisi(int vrsta, int kolona, int nUlaza, int nIzlaza) {
 	srand(time(NULL));
 
+	//dodeli svima posecenost 0
+	for (int i = 0; i < 100; i++) {
+		Posecena.vrsta[i] = 0;
+		Posecena.kolona[i] = 0;
+	}
+
+
 	Polje.trenK = 0;
-	Polje.trenV = rand() % vrsta + 1;
+	Polje.trenV = rand() % vrsta;
 
 	Posecena.vrsta[0] = Polje.trenV;
 	Posecena.kolona[0] = Polje.trenK;
@@ -70,7 +77,7 @@ generisi(int vrsta, int kolona, int nUlaza, int nIzlaza) {
 				Posecena.kolona[brojPosecenih] = Polje.trenK;
 
 				//debug printer
-				//printf("%4d: %3d   | %3d\n",brojPosecenih, Polje.trenV, Polje.trenK);
+				printf("%4d: %3d   | %3d\n",brojPosecenih, Polje.trenV, Polje.trenK);
 
 				brojPosecenih++;
 			}
@@ -136,7 +143,6 @@ int izaberi(int *skociNa) {
 		if (skociNa[element] > 0 && skociNa[element] < 5) return skociNa[element];
 	}
 	return 0;*/
-	
 }
 
 int poseceno(int *lokacija, int brojPosecenih) {
