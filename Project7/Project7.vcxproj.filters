@@ -24,6 +24,9 @@
     <ClCompile Include="graphicsGenerator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="koordinate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsGenerator.h">

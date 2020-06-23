@@ -9,8 +9,8 @@ odgovarajuce velicine i, u narednom poglavlju, naredbu za resavanje lavirinta
 
 void main() {
 
-	int a = 4;
-	int b = 4;
+	int a = 10;
+	int b = 10;
 	generisi(a, b, 1, 1);
 	printf("\n\n\tI Z G E N E R I S A N O\n\n\n");
 	for (int i = 0; i < a*b; i++) {

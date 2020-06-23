@@ -6,143 +6,145 @@ struct polje {
 	int trenV; //tren == trenutna
 	int trenK;
 };
-struct posecenaPolja { //cuva recom posecena polja
+struct posecenaPolja { //cuva redom posecena polja
 	int vrsta[100];
 	int kolona[100];
 };
 // todo: strukture pretvoriti u neku vrstu stack pair-a
  // todo: pretvori promenljive za strane ka orijentaciji na enum
+enum strane {
+	SEVER = 0x01,
+	JUG = 0x02,
+	ZAPAD = 0x03,
+	ISTOK = 0x04,
+	PUNO = 0x10
+};
+
 
 struct polje Polje;
 struct posecenaPolja Posecena;
 
+
+
 int* ptrPosecenaVrsta = &Posecena.vrsta;
 int* ptrPosecenaKolona = &Posecena.kolona;
+
+int matrPosecenihKoordinata[100][100];
+int brojPosecenih = 0;
+int lokacija[2];
+int smer[4];
+
+int susediZauzeti(int smer[4]) {
+	int brojac = 0;
+	for (int i = 0; i < 4; i++) {
+		if (smer[i] == PUNO) brojac++;
+	}
+	if (brojac == 4) return 1;
+	else return 0;
+}
+
+void setPosecena(int vrsta, int kolona, int brojPosecenih) {
+
+	Posecena.vrsta[brojPosecenih] = vrsta;
+	Posecena.kolona[brojPosecenih] = kolona;
+	matrPosecenihKoordinata[vrsta][kolona] = 1;
+	//brojPosecenih++;
+
+}
+void setTrenutno(int vrsta, int kolona) {
+	Polje.trenV = vrsta;
+	Polje.trenK = kolona;
+	//setLokacija
+	lokacija[0] = vrsta;
+	lokacija[1] = kolona;
+}
+
 
 generisi(int vrsta, int kolona, int nUlaza, int nIzlaza) {
 	srand(time(NULL));
 
-	//dodeli svima posecenost 0
 	for (int i = 0; i < 100; i++) {
 		Posecena.vrsta[i] = 0;
 		Posecena.kolona[i] = 0;
 	}
 
+	//////dodeli svima posecenost 0
+	////for (int i = 0; i < 100; i++) {
+	////	
+	////}
 
-	Polje.trenK = 0;
-	Polje.trenV = rand() % vrsta;
+	setTrenutno(rand() % vrsta, 0);
 
-	Posecena.vrsta[0] = Polje.trenV;
-	Posecena.kolona[0] = Polje.trenK;
-
-	int brojPosecenih = 1;
+	setPosecena(Polje.trenV, Polje.trenK, 0);
+	brojPosecenih++;
+	int brojVracanja = 1;
 
 	while (brojPosecenih < kolona*vrsta) {
-		int lokacija[2] = { Polje.trenV, Polje.trenK };
-		int brojVracanja = 1;
-		if (slobodni(lokacija, vrsta, kolona, brojPosecenih, 0) == -1) {
+		
+		slobodniSusedi(lokacija, brojPosecenih, vrsta, kolona);
+
+		if (susediZauzeti(smer)) {
 			//vrati se nazad
-			Polje.trenV = Posecena.vrsta[brojPosecenih - 1 - brojVracanja];
-			Polje.trenK = Posecena.kolona[brojPosecenih - 1 - brojVracanja];
+			setTrenutno(Posecena.vrsta[brojPosecenih - 1 - brojVracanja], Posecena.kolona[brojPosecenih - 1 - brojVracanja]);
+
 			brojVracanja++;
 		}
 		//pomeri se na dato polje i upisi da si ga posetio
 		else {
 			brojVracanja = 1;
 
-			int skociNa[4];
+			
+			int predjiNa = izaberi(smer);
+			int sj = 0;	//location modifiers
+			int zi = 0;
 
-			for (int i = 0; i < 4; i++) {
-				skociNa[i] = slobodni(lokacija, vrsta, kolona, brojPosecenih, i);
+			if (predjiNa == SEVER) {
+				sj = -1;
 			}
-			int odaberi = izaberi(skociNa);
-
-			if (odaberi == 1) {
-				Polje.trenV--;
+			else if (predjiNa == JUG) {
+				sj = 1;
 			}
-			else if (odaberi == 2) {
-				Polje.trenV++;
+			else if (predjiNa == ZAPAD) {
+				zi = -1;
 			}
-			else if (odaberi == 3) {
-				Polje.trenK--;
-			}
-			else if (odaberi == 4) {
-				Polje.trenK++;
+			else if (predjiNa == ISTOK) {
+				zi = 1;
 			}
 			//upis posecenosti, redom
-			lokacija[0] = Polje.trenV;
-			lokacija[1] = Polje.trenK;
-			if (!poseceno(lokacija, brojPosecenih)) {
-				Posecena.vrsta[brojPosecenih] = Polje.trenV;
-				Posecena.kolona[brojPosecenih] = Polje.trenK;
+			setTrenutno(Polje.trenV + sj, Polje.trenK + zi);
+			setPosecena(Polje.trenV, Polje.trenK, brojPosecenih);
+			brojPosecenih++;
 
-				//debug printer
-				printf("%4d: %3d   | %3d\n",brojPosecenih, Polje.trenV, Polje.trenK);
+			printf("%3d: %3d   | %3d\n", brojPosecenih, Polje.trenV, Polje.trenK);
 
-				brojPosecenih++;
-			}
 		}
 	}
 }
 
-int slobodni(int lokacija[2], int vrsta, int kolona, int brojPosecenih, int j) {
-	
-	int skociNa[4] = { 0,0,0,0 };
+int slobodniSusedi(int *lokacija, int brojPosecenih, int nVrsta, int nKolona) {
 	
 	//sever
-	if (lokacija[0] != 0) {
-		int privremenaLokacija[2] = { lokacija[0] - 1, lokacija[1] };
-		if (!poseceno(privremenaLokacija, brojPosecenih)) {
-			skociNa[0] = 1;
-		}
-	}
-	else skociNa[0] = 0;
+	if (!matrPosecenihKoordinata[lokacija[0] - 1][lokacija[1]] && lokacija[0] != 0) smer[0] = SEVER;
+	else smer[0] = PUNO;
 	//jug
-	if (lokacija[0] < vrsta - 1) {
-		int privremenaLokacija[2] = { lokacija[0] + 1, lokacija[1] };
-		if (!poseceno(privremenaLokacija, brojPosecenih)) {
-			skociNa[1] = 2;
-		}
-	}
-	else skociNa[1] = 0;
+	if (!matrPosecenihKoordinata[lokacija[0] + 1][lokacija[1]] && lokacija[0] != nVrsta - 1) smer[1] = JUG;
+	else smer[1] = PUNO;
 	//zapad
-	if (lokacija[1] != 0) {
-		int privremenaLokacija[2] = { lokacija[0], lokacija[1] - 1 };
-		if (!poseceno(privremenaLokacija, brojPosecenih)) {
-			skociNa[2] = 3;
-		}
-	}
-	else skociNa[2] = 0;
+	if (!matrPosecenihKoordinata[lokacija[0]][lokacija[1] - 1] && lokacija[1] != 0) smer[2] = ZAPAD;
+	else smer[2] = PUNO;
 	//istok
-	if (lokacija[1] < kolona - 1) {
-		int privremenaLokacija[2] = { lokacija[0], lokacija[1] + 1 };
-		if (!poseceno(privremenaLokacija, brojPosecenih)) {
-			skociNa[3] = 4;
-		}
-	}
-	else skociNa[3] = 0;
-	
-	int brojac = 0;
-	for (int i = 0; i < 4; i++) {
-		if (skociNa[i] == 0) brojac++;
-	}
-	if (brojac == 4) skociNa[0] = -1;
+	if (!matrPosecenihKoordinata[lokacija[0]][lokacija[1] + 1] && lokacija[1] != nKolona - 1) smer[3] = ISTOK;
+	else smer[3] = PUNO;
 
-	return skociNa[j];
+	return 0;
 }
 
-int izaberi(int *skociNa) {
-	int element = 0;
+int izaberi(int *smer) {
+	
 	do {
-		element = rand() % 4;
-	} while (skociNa[element] < 1);
-	return skociNa[element];
-
-	/*for (int i = 0; i < 150; i++) {
-		element = rand() % 4;
-		if (skociNa[element] > 0 && skociNa[element] < 5) return skociNa[element];
-	}
-	return 0;*/
+		int random = rand() % 4;
+		if (smer[random] != PUNO) return smer[random];
+	} while (1);
 }
 
 int poseceno(int *lokacija, int brojPosecenih) {

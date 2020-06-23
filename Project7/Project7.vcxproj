@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="graphicsGenerator.c" />
+    <ClCompile Include="koordinate.c" />
     <ClCompile Include="mazeGenerator.c" />
     <ClCompile Include="Source.c" />
   </ItemGroup>
